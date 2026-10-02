@@ -1,166 +1,147 @@
-/* COLORES Y CONFIGURACIÓN */
-:root {
-  --turquesa: #65b9ae;
-  --turquesa-oscuro: #245c56;
-  --turquesa-claro: #e5f4f2;
-  --texto: #173b37;
-  --texto-secundario: #425b58;
-  --blanco: #ffffff;
-  --fondo: #f4f9f8;
-  --sombra: 0 10px 28px rgba(36, 92, 86, 0.12);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  let idiomaActual = "es";
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--fondo);
-  color: var(--texto);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-}
-.contenedor { width: min(100% - 40px, 1000px); margin-inline: auto; }
+  const botonAbrir = document.getElementById("abrir-contacto");
+  const ventana = document.getElementById("ventana-contacto");
+  const botonCerrar = document.getElementById("cerrar-contacto");
+  const consulta = document.getElementById("consulta-contacto");
+  const explorar = document.getElementById("explorar-servicios");
 
-.portada {
-  padding: 80px 0;
-  background: linear-gradient(135deg, var(--turquesa-claro), var(--turquesa));
-  text-align: center;
-  position: relative;
-  padding-top: 110px;
-}
+  const contactos = {
+    jose: "527772755235",
+    ananda: "525585375196"
+  };
 
-.portada__etiqueta {
-  margin-bottom: 16px;
-  color: var(--turquesa-oscuro);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
+  const traducciones = [
+    [".portada__frase", "Friendly, reliable services for you and your loved ones."],
+    [".portada .contenedor > .boton", "Explore our services"],
+    ["#titulo-servicios", "Our services"],
+    [".servicios__introduccion", "Select a service to discover how we can help."],
+    ["#abrir-contacto", "WhatsApp · Contact us"],
+    ["#titulo-contacto", "Hello! How can we help you?"],
+    ["#ventana-contacto > p:first-of-type", "Tell us which service you need or write your question. We'll be happy to help."],
+    ["#explorar-servicios", "You can also explore our services on this page for more details."],
+    ['label[for="consulta-contacto"]', "Write your question here"],
+    ['[data-contacto="jose"]', "WhatsApp José Luis"],
+    ['[data-contacto="ananda"]', "WhatsApp Ananda"],
+    [".contacto-aviso", "You can review your message in WhatsApp before sending it."]
+  ];
 
-.portada h1 {
-  margin-bottom: 22px;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  line-height: 1.1;
-  overflow-wrap: anywhere;
-}
+  function prepararTexto(elemento, ingles) {
+    if (!elemento) return;
+    elemento.dataset.es = elemento.textContent.trim();
+    elemento.dataset.en = ingles;
+  }
 
-.portada__frase { max-width: 620px; margin: 0 auto 30px; font-size: clamp(1.15rem, 3vw, 1.6rem); }
+  if (explorar) {
+    explorar.textContent = "También puedes explorar nuestros servicios en esta página para conocer más detalles.";
+    explorar.parentElement.replaceChildren(explorar);
+  }
 
-.boton {
-  display: inline-block;
-  max-width: 100%;
-  padding: 13px 24px;
-  border-radius: 999px;
-  background: var(--turquesa-oscuro);
-  color: var(--blanco);
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-.boton:hover { background: var(--texto); }
-.boton:focus-visible, .servicio__ovalo:focus-visible { outline: 3px solid var(--texto); outline-offset: 5px; }
+  traducciones.forEach(([selector, ingles]) => {
+    prepararTexto(document.querySelector(selector), ingles);
+  });
 
-.servicios { padding-block: 65px 80px; }
-.servicios h2 { margin-bottom: 12px; font-size: clamp(1.8rem, 5vw, 2.5rem); text-align: center; }
-.servicios__introduccion { margin-bottom: 32px; color: var(--texto-secundario); text-align: center; }
-.servicios__lista { display: grid; gap: 22px; max-width: 820px; margin-inline: auto; }
+  document.querySelectorAll(".servicio").forEach((servicio, indice) => {
+    const textos = [
+      {
+        nombre: "Pool cleaning and vacuuming",
+        descripcion: "Residential pool cleaning and vacuuming in Mérida. Explore our services and request a quote based on your pool's size and condition.",
+        boton: "View service and request a quote"
+      },
+      {
+        nombre: "Transfers",
+        descripcion: "Airport transfers, trips within Mérida and journeys to destinations outside the city.",
+        boton: "View service and request a quote"
+      },
+      {
+        nombre: "In-home dog care",
+        descripcion: "Responsible care for your dogs in the comfort of your home.",
+        boton: "View care options and request a quote"
+      }
+    ][indice];
 
-.servicio { min-width: 0; }
-.servicio__ovalo {
-  position: relative;
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 30px;
-  align-items: center;
-  gap: 20px;
-  min-height: 110px;
-  padding: 20px 32px;
-  border: 2px solid var(--turquesa);
-  border-radius: 999px;
-  background: var(--blanco);
-  box-shadow: var(--sombra);
-  cursor: pointer;
-  list-style: none;
-  transition: background-color 0.2s ease;
-}
-.servicio__ovalo::-webkit-details-marker { display: none; }
-.servicio__ovalo::marker { content: ""; }
-.servicio__ovalo:hover, .servicio[open] .servicio__ovalo { background: var(--turquesa-claro); }
+    if (!textos) return;
+    prepararTexto(servicio.querySelector(".servicio__nombre"), textos.nombre);
+    prepararTexto(servicio.querySelector(".servicio__contenido > p"), textos.descripcion);
+    if (servicio.querySelector(".servicio__contenido .boton")) {
+      prepararTexto(servicio.querySelector(".servicio__contenido .boton"), textos.boton);
+    }
+  });
 
-.servicio__icono {
-  display: grid; width: 64px; height: 64px; place-items: center; border-radius: 50%; background: var(--turquesa-claro); font-size: 2rem;
-}
-.servicio__nombre {
-  color: var(--turquesa-oscuro); font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 800; line-height: 1.35; overflow-wrap: anywhere;
-}
-.servicio__indicador {
-  color: var(--turquesa-oscuro); font-size: 2rem; line-height: 1; text-align: center; transition: transform 0.2s ease;
-}
-.servicio[open] .servicio__indicador { transform: rotate(45deg); }
+  function actualizarMensajes() {
+    const texto = consulta ? consulta.value.trim() : "";
+    let mensaje = idiomaActual === "en"
+      ? "Hello, I visited the Lool Beh Services website and would like more information."
+      : "Hola, vi la página de Lool Beh Services y quisiera más información.";
 
-.servicio__contenido {
-  margin: 12px 24px 0;
-  padding: 26px 30px;
-  border: 1px solid var(--turquesa);
-  border-radius: 26px;
-  background: var(--blanco);
-}
-.servicio__contenido p { margin-bottom: 20px; color: var(--texto-secundario); }
-.servicio__contenido p:last-child { margin-bottom: 0; }
+    if (texto) {
+      mensaje += idiomaActual === "en"
+        ? "\n\nMy enquiry: " + texto
+        : "\n\nMi consulta es: " + texto;
+    }
 
-.pie { padding: 35px 0; background: var(--texto); color: var(--blanco); text-align: center; }
-.pie strong { font-size: 1.15rem; }
+    document.querySelectorAll("[data-contacto]").forEach((enlace) => {
+      const telefono = contactos[enlace.dataset.contacto];
+      if (telefono) {
+        enlace.href = "https://wa.me/" + telefono + "?text=" + encodeURIComponent(mensaje);
+      }
+    });
+  }
 
-.selector-idioma {
-  position: absolute; top: 20px; right: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; max-width: calc(100% - 40px); padding: 8px 12px; border-radius: 24px; background: var(--blanco); color: var(--texto); box-shadow: var(--sombra);
-}
-.selector-idioma > span { font-size: 0.9rem; font-weight: 700; }
-.idioma {
-  min-height: 44px; padding: 8px 12px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--turquesa-oscuro); font: inherit; font-weight: 700; cursor: pointer;
-}
-.idioma:hover { background: var(--turquesa-claro); }
-.idioma[aria-pressed="true"] { background: var(--turquesa-oscuro); color: var(--blanco); }
-.idioma:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+  function cambiarIdioma(idioma) {
+    idiomaActual = idioma === "en" ? "en" : "es";
+    document.documentElement.lang = idiomaActual;
 
-.whatsapp-flotante {
-  position: fixed; right: 20px; bottom: 20px; z-index: 1000; max-width: calc(100% - 40px); padding: 15px 22px; border: none; border-radius: 999px; background: var(--turquesa-oscuro); color: var(--blanco); font: inherit; font-weight: 800; cursor: pointer; box-shadow: var(--sombra);
-}
-.whatsapp-flotante:hover { background: var(--texto); }
+    document.querySelectorAll("[data-es][data-en]").forEach((elemento) => {
+      elemento.textContent = elemento.dataset[idiomaActual];
+    });
 
-.ventana-contacto {
-  position: fixed; inset: 0; width: min(560px, calc(100% - 32px)); max-height: 85vh; margin: auto; padding: 32px; overflow-y: auto; border: none; border-radius: 24px; background: var(--blanco); color: var(--texto); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-}
-.ventana-contacto::backdrop { background: rgba(23, 59, 55, 0.7); }
-.contacto-cerrar {
-  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border: none; border-radius: 50%; background: var(--turquesa-claro); color: var(--texto); font-size: 1.2rem; cursor: pointer;
-}
-.ventana-contacto h2 { margin-bottom: 18px; padding-right: 36px; font-size: 1.6rem; line-height: 1.3; }
-.ventana-contacto p { margin-bottom: 18px; }
-#explorar-servicios { color: var(--turquesa-oscuro); font-weight: 700; text-underline-offset: 3px; }
-.ventana-contacto label { display: block; margin-bottom: 8px; font-weight: 700; }
-#consulta-contacto {
-  display: block; width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--turquesa-oscuro); border-radius: 12px; background: var(--blanco); color: var(--texto); font: inherit; resize: vertical;
-}
-.contacto-opciones { display: grid; gap: 12px; margin-top: 20px; }
-.ventana-contacto .contacto-aviso { margin: 18px 0 0; color: var(--texto-secundario); font-size: 0.9rem; }
-.whatsapp-flotante:focus-visible, .contacto-cerrar:focus-visible, #consulta-contacto:focus-visible, #explorar-servicios:focus-visible { outline: 3px solid var(--turquesa-oscuro); outline-offset: 4px; }
+    document.querySelectorAll("[data-idioma]").forEach((boton) => {
+      const seleccionado = boton.dataset.idioma === idiomaActual;
+      boton.setAttribute("aria-pressed", String(seleccionado));
+      boton.classList.toggle("activo", seleccionado);
+    });
 
-.pie { padding-bottom: 110px; }
+    if (consulta) {
+      consulta.placeholder = idiomaActual === "en" ? "For example: I need an airport transfer…" : "Por ejemplo: necesito un traslado al aeropuerto…";
+    }
 
-@media (max-width: 600px) {
-  .contenedor { width: calc(100% - 28px); }
-  .portada { padding: 55px 0; }
-  .servicios { padding-block: 45px 55px; }
-  .servicio__ovalo { grid-template-columns: 44px minmax(0, 1fr) 22px; gap: 12px; min-height: 100px; padding: 20px; }
-  .servicio__icono { width: 44px; height: 44px; font-size: 1.5rem; }
-  .servicio__contenido { margin-inline: 8px; padding: 22px 20px; }
-  .ventana-contacto { padding: 28px 20px; }
-  .whatsapp-flotante { right: 16px; bottom: 16px; padding: 13px 18px; }
-  .selector-idioma { position: static; width: fit-content; margin: 0 auto 28px; }
-  .portada { padding-top: 24px; }
-}
+    if (botonCerrar) {
+      botonCerrar.setAttribute("aria-label", idiomaActual === "en" ? "Close contact window" : "Cerrar ventana de contacto");
+    }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { transition: none !important; }
-}
+    const descripcion = document.querySelector('meta[name="description"]');
+    if (descripcion) {
+      descripcion.content = idiomaActual === "en"
+        ? "Lool Beh services in Mérida: pool cleaning, transfers and in-home dog care."
+        : "Lool Beh Services en Mérida: limpieza de piscinas, traslados y cuidado de perros a domicilio.";
+    }
+
+    actualizarMensajes();
+    try { localStorage.setItem("lool-beh-idioma", idiomaActual); } catch {}
+  }
+
+  document.querySelectorAll("[data-idioma]").forEach((boton) => {
+    boton.addEventListener("click", () => cambiarIdioma(boton.dataset.idioma));
+  });
+
+  if (botonAbrir && ventana && botonCerrar && consulta) {
+    botonAbrir.addEventListener("click", () => {
+      actualizarMensajes();
+      if (!ventana.open) {
+        ventana.showModal();
+        consulta.focus();
+      }
+    });
+
+    botonCerrar.addEventListener("click", () => ventana.close());
+    consulta.addEventListener("input", actualizarMensajes);
+    ventana.addEventListener("close", () => { botonAbrir.focus(); });
+    if (explorar) explorar.addEventListener("click", () => ventana.close());
+  }
+
+  let idiomaGuardado = "es";
+  try { idiomaGuardado = localStorage.getItem("lool-beh-idioma") || "es"; } catch {}
+  cambiarIdioma(idiomaGuardado);
+});
