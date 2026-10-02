@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Limpieza y aspirado de piscinas en Mérida con Lool Beh Services.">
+  <title>Limpieza de piscinas | Lool Beh Services</title>
+  <style>
+    :root {
+      --turquesa: #65b9ae;
+      --turquesa-oscuro: #245c56;
+      --turquesa-claro: #e5f4f2;
+      --fondo: #f4f9f8;
+      --texto: #173b37;
+      --blanco: #ffffff;
+      --borde: #dfeeea;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: var(--turquesa-oscuro); }
+    .contenedor { width: min(100% - 32px, 960px); margin: 0 auto; }
+    .barra { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+    .volver { font-weight: 700; text-decoration: none; }
+    .portada { background: var(--turquesa-claro); padding: 52px 0; text-align: center; }
+    h1, h2, h3 { color: var(--turquesa-oscuro); line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin: 0 0 18px; }
+    .etiqueta { letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; margin: 0 0 12px; }
+    .subtitulo { max-width: 620px; margin: 0 auto 20px; font-size: 1.1rem; }
+    .boton { display: inline-block; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 22px; border-radius: 999px; text-decoration: none; font-weight: 700; }
+    section { padding: 42px 0; }
+    .flexbox { display: grid; gap: 18px; }
+    .card { background: var(--blanco); border: 1px solid var(--borde); border-radius: 22px; padding: 22px; }
+    .lista { padding-left: 20px; }
+    .cta { background: var(--turquesa-claro); border-radius: 24px; padding: 28px; text-align: center; }
+    .whatsapp { position: fixed; right: 18px; bottom: 18px; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; z-index: 10; }
+    @media (max-width: 600px) { .barra { justify-content: center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="contenedor barra">
+      <a class="volver" href="../index.html">← Lool Beh Services</a>
+    </div>
+  </header>
+
+  <div class="portada">
+    <div class="contenedor">
+      <p class="etiqueta">Lool Beh · Mérida</p>
+      <h1>Limpieza y aspirado de piscinas</h1>
+      <p class="subtitulo">Tu piscina limpia, segura y lista para disfrutar.</p>
+      <a class="boton" href="#cotizar">Solicita tu cotización</a>
+    </div>
+  </div>
+
+  <main class="contenedor">
+    <section>
+      <div class="flexbox">
+        <div class="card">
+          <h2>¿Qué incluye el servicio?</h2>
+          <ul class="lista">
+            <li>Aspirado minucioso del fondo.</li>
+            <li>Limpieza de canastillas y skimmer.</li>
+            <li>Retiro de hojas y residuos.</li>
+            <li>Diagnóstico de agua y recomendaciones.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>¿Por qué elegirnos?</h2>
+          <p>Ofrecemos un servicio puntual, cuidadoso y adaptado a tus necesidades para mantener tu piscina en buen estado durante más tiempo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cotizar">
+      <div class="cta">
+        <h2>Solicita una cotización</h2>
+        <p>Comparte tus datos y te responderemos por WhatsApp.</p>
+        <a class="boton" href="https://wa.me/527772755235?text=Hola%20Jose%2C%20quisiera%20cotizar%20el%20servicio%20de%20piscina." target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <a class="whatsapp" href="https://wa.me/527772755235?text=Hola%20Jose%2C%20quisiera%20cotizar%20mi%20piscina." target="_blank" rel="noopener noreferrer">WhatsApp · José Luis</a>
+</body>
+</html>
