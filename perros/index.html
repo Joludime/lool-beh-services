@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Traslados en Mérida con Lool Beh Services.">
-  <title>Traslados | Lool Beh Services</title>
+  <meta name="description" content="Cuidado de perros a domicilio en Mérida con Lool Beh Services.">
+  <title>Cuidado de perros a domicilio | Lool Beh Services</title>
   <style>
     :root {
       --turquesa: #65b9ae;
@@ -24,9 +24,14 @@
     .portada { background: var(--turquesa-claro); padding: 52px 0; text-align: center; }
     h1, h2 { color: var(--turquesa-oscuro); line-height: 1.2; }
     h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin: 0 0 18px; }
+    .etiqueta { letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; margin: 0 0 12px; }
     .subtitulo { max-width: 620px; margin: 0 auto 20px; font-size: 1.1rem; }
-    .card { background: var(--blanco); border: 1px solid var(--borde); border-radius: 22px; padding: 22px; margin: 22px auto; }
     .boton { display: inline-block; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 22px; border-radius: 999px; text-decoration: none; font-weight: 700; }
+    section { padding: 42px 0; }
+    .flexbox { display: grid; gap: 18px; }
+    .card { background: var(--blanco); border: 1px solid var(--borde); border-radius: 22px; padding: 22px; }
+    .lista { padding-left: 20px; }
+    .cta { background: var(--turquesa-claro); border-radius: 24px; padding: 28px; text-align: center; }
     .whatsapp { position: fixed; right: 18px; bottom: 18px; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; z-index: 10; }
     @media (max-width: 600px) { .barra { justify-content: center; } }
   </style>
@@ -40,29 +45,40 @@
 
   <div class="portada">
     <div class="contenedor">
-      <h1>Traslados en Mérida</h1>
-      <p class="subtitulo">Al aeropuerto, dentro de la ciudad o hacia tus destinos fuera de Mérida.</p>
-      <a class="boton" href="#cotizar">Cotizar mi traslado</a>
+      <p class="etiqueta">Lool Beh · Mérida</p>
+      <h1>Cuidado de perros a domicilio</h1>
+      <p class="subtitulo">Cuando no puedes estar, cuidamos de tus perros en la comodidad de su hogar.</p>
+      <a class="boton" href="#cotizar">Solicita una cotización</a>
     </div>
   </div>
 
   <main class="contenedor">
-    <section class="card">
-      <h2>¿A dónde necesitas ir?</h2>
-      <ul>
-        <li>Aeropuerto de Mérida</li>
-        <li>Dentro de Mérida</li>
-        <li>Fuera de la ciudad</li>
-      </ul>
+    <section>
+      <div class="flexbox">
+        <div class="card">
+          <h2>Cuidado en su propio hogar</h2>
+          <p>Ayudamos a cuidar de tus perros en el entorno que conocen, con atención adaptada a sus necesidades y a las indicaciones que nos compartas.</p>
+        </div>
+        <div class="card">
+          <h2>Opciones flexibles</h2>
+          <ul class="lista">
+            <li>Cuidado por horas.</li>
+            <li>Períodos más largos según tus necesidades.</li>
+            <li>Atención coordinada contigo para conocer su rutina.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section id="cotizar" class="card">
-      <h2>Cuéntanos tu próximo traslado</h2>
-      <p>Envíanos tus datos y te contestamos por WhatsApp para confirmar disponibilidad y precio.</p>
-      <a class="boton" href="https://wa.me/527772755235?text=Hola%20Jose%2C%20quisiera%20cotizar%20un%20traslado." target="_blank" rel="noopener noreferrer">Solicitar cotización</a>
+    <section id="cotizar">
+      <div class="cta">
+        <h2>Conversemos sobre el cuidado que necesitas</h2>
+        <p>Cuéntanos sobre tus perros y el horario que necesitas para recibir una cotización por WhatsApp con Ananda.</p>
+        <a class="boton" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20cotizar%20el%20cuidado%20de%20mis%20perros%20a%20domicilio." target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+      </div>
     </section>
   </main>
 
-  <a class="whatsapp" href="https://wa.me/527772755235?text=Hola%20Jose%2C%20quisiera%20consultar%20un%20traslado." target="_blank" rel="noopener noreferrer">WhatsApp · José Luis</a>
+  <a class="whatsapp" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20consultar%20sobre%20el%20cuidado%20de%20perros%20a%20domicilio." target="_blank" rel="noopener noreferrer">WhatsApp · Ananda</a>
 </body>
 </html>
