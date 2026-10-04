@@ -33,6 +33,18 @@
     .lista { padding-left: 20px; }
     .cta { background: var(--turquesa-claro); border-radius: 24px; padding: 28px; text-align: center; }
     .whatsapp { position: fixed; right: 18px; bottom: 18px; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; z-index: 10; }
+    button.boton { border: 0; cursor: pointer; font-family: inherit; font-size: inherit; }
+
+    .formulario { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 16px; text-align: left; margin-top: 18px; }
+    .campo { display: grid; gap: 6px; align-content: start; }
+    .campo.completo { grid-column: 1 / -1; }
+    .formulario label { font-weight: 700; }
+    .formulario input, .formulario select, .formulario textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--borde); border-radius: 12px; background: var(--blanco); color: var(--texto); font-family: inherit; font-size: 1rem; }
+    .formulario input:focus, .formulario select:focus, .formulario textarea:focus { outline: 2px solid var(--turquesa); outline-offset: 1px; }
+    .formulario textarea { resize: vertical; }
+    .ayuda { margin: 0; font-size: 0.9rem; color: #4a6b66; }
+    .aviso { margin: 8px 0 0; font-size: 0.9rem; }
+
     @media (max-width: 600px) { .barra { justify-content: center; } }
   </style>
 </head>
@@ -73,12 +85,113 @@
     <section id="cotizar">
       <div class="cta">
         <h2>Cuéntanos tu próximo traslado</h2>
-        <p>Solicita tu cotización por WhatsApp con Ananda.</p>
-        <a class="boton" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20cotizar%20un%20traslado." target="_blank" rel="noopener noreferrer">Solicitar cotización</a>
+        <p>Completa los datos y abre tu solicitud en WhatsApp con Ananda. Podrás revisar el mensaje antes de enviarlo.</p>
+
+        <form id="formulario-traslado" class="formulario">
+          <div class="campo">
+            <label for="nombre">Tu nombre</label>
+            <input id="nombre" name="nombre" autocomplete="name" maxlength="80" required>
+          </div>
+
+          <div class="campo">
+            <label for="tipo">Tipo de traslado</label>
+            <select id="tipo" name="tipo">
+              <option value="aeropuerto">Aeropuerto</option>
+              <option value="ciudad">Dentro de Mérida</option>
+              <option value="fuera">Fuera de la ciudad</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="origen">Lugar de recogida</label>
+            <input id="origen" name="origen" maxlength="200" required>
+          </div>
+
+          <div class="campo">
+            <label for="destino">Destino</label>
+            <input id="destino" name="destino" maxlength="200" required>
+          </div>
+
+          <div class="campo">
+            <label for="fecha">Fecha</label>
+            <input id="fecha" name="fecha" type="date" required>
+          </div>
+
+          <div class="campo">
+            <label for="hora">Hora de recogida (hora de Mérida)</label>
+            <input id="hora" name="hora" type="time" required>
+          </div>
+
+          <div class="campo">
+            <label for="pasajeros">Número de pasajeros</label>
+            <input id="pasajeros" name="pasajeros" type="number" min="1" step="1" required>
+          </div>
+
+          <div class="campo">
+            <label for="equipaje">Equipaje: cantidad y tamaño</label>
+            <input id="equipaje" name="equipaje" maxlength="200" required>
+          </div>
+
+          <div class="campo completo">
+            <label for="notas">Detalles adicionales (opcional)</label>
+            <textarea id="notas" name="notas" rows="3" maxlength="700" placeholder="Número de vuelo, regreso, paradas…"></textarea>
+          </div>
+
+          <div class="campo completo">
+            <button class="boton" type="submit">Solicitar cotización por WhatsApp</button>
+            <p class="aviso">Esta solicitud no confirma una reserva. Ananda te confirmará disponibilidad, precio y detalles por WhatsApp.</p>
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
   <a class="whatsapp" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20consultar%20un%20traslado." target="_blank" rel="noopener noreferrer">WhatsApp · Ananda</a>
+
+  <script>
+    const numeroWhatsApp = "525585375196";
+    const formularioTraslado = document.getElementById("formulario-traslado");
+
+    /* No permitir fechas anteriores a hoy */
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    document.getElementById("fecha").min = `${anio}-${mes}-${dia}`;
+
+    formularioTraslado.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+
+      const valor = (id) => document.getElementById(id).value.trim();
+      const selectorTipo = document.getElementById("tipo");
+      const tipo = selectorTipo.options[selectorTipo.selectedIndex].text;
+
+      const partes = valor("fecha").split("-");
+      const fecha = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+      const lineas = [
+        "Hola Ananda, quisiera cotizar un traslado con Lool Beh.",
+        "",
+        `Nombre: ${valor("nombre")}`,
+        `Tipo de traslado: ${tipo}`,
+        `Recogida: ${valor("origen")}`,
+        `Destino: ${valor("destino")}`,
+        `Fecha: ${fecha}`,
+        `Hora de recogida (Mérida): ${valor("hora")}`,
+        `Pasajeros: ${valor("pasajeros")}`,
+        `Equipaje: ${valor("equipaje")}`
+      ];
+
+      if (valor("notas")) {
+        lineas.push(`Detalles: ${valor("notas")}`);
+      }
+
+      const url =
+        `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(lineas.join("\n"))}`;
+
+      window.open(url, "_blank", "noopener,noreferrer");
+      formularioTraslado.reset();
+    });
+  </script>
 </body>
 </html>

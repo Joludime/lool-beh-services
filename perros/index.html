@@ -33,6 +33,18 @@
     .lista { padding-left: 20px; }
     .cta { background: var(--turquesa-claro); border-radius: 24px; padding: 28px; text-align: center; }
     .whatsapp { position: fixed; right: 18px; bottom: 18px; background: var(--turquesa-oscuro); color: var(--blanco); padding: 12px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; z-index: 10; }
+    button.boton { border: 0; cursor: pointer; font-family: inherit; font-size: inherit; }
+
+    .formulario { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 16px; text-align: left; margin-top: 18px; }
+    .campo { display: grid; gap: 6px; align-content: start; }
+    .campo.completo { grid-column: 1 / -1; }
+    .formulario label { font-weight: 700; }
+    .formulario input, .formulario select, .formulario textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--borde); border-radius: 12px; background: var(--blanco); color: var(--texto); font-family: inherit; font-size: 1rem; }
+    .formulario input:focus, .formulario select:focus, .formulario textarea:focus { outline: 2px solid var(--turquesa); outline-offset: 1px; }
+    .formulario textarea { resize: vertical; }
+    .ayuda { margin: 0; font-size: 0.9rem; color: #4a6b66; }
+    .aviso { margin: 8px 0 0; font-size: 0.9rem; }
+
     @media (max-width: 600px) { .barra { justify-content: center; } }
   </style>
 </head>
@@ -73,12 +85,158 @@
     <section id="cotizar">
       <div class="cta">
         <h2>Conversemos sobre el cuidado que necesitas</h2>
-        <p>Cuéntanos sobre tus perros y el horario que necesitas para recibir una cotización por WhatsApp con Ananda.</p>
-        <a class="boton" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20cotizar%20el%20cuidado%20de%20mis%20perros%20a%20domicilio." target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+        <p>Cuéntanos sobre tus perros, las fechas y los horarios. Abre tu solicitud en WhatsApp con Ananda y podrás revisar el mensaje antes de enviarlo.</p>
+
+        <form id="formulario-perros" class="formulario">
+          <div class="campo">
+            <label for="nombre">Tu nombre</label>
+            <input id="nombre" name="nombre" autocomplete="name" maxlength="80" required>
+          </div>
+
+          <div class="campo">
+            <label for="colonia">Colonia o zona</label>
+            <input id="colonia" name="colonia" maxlength="150" required>
+          </div>
+
+          <div class="campo completo">
+            <label for="modalidad">¿Qué cuidado necesitas?</label>
+            <select id="modalidad" name="modalidad">
+              <option value="visitas">Visitas por horas</option>
+              <option value="nocturno">Cuidado nocturno en mi domicilio</option>
+              <option value="ambos">Ambas modalidades</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="fecha-inicio">Fecha de inicio</label>
+            <input id="fecha-inicio" name="inicio" type="date" required>
+          </div>
+
+          <div class="campo">
+            <label for="fecha-fin">Fecha de finalización</label>
+            <input id="fecha-fin" name="fin" type="date" required>
+          </div>
+
+          <div class="campo completo">
+            <label for="horarios">Visitas y horarios que necesitas</label>
+            <textarea id="horarios" name="horarios" rows="2" maxlength="400" aria-describedby="ayuda-horarios" required></textarea>
+            <p class="ayuda" id="ayuda-horarios">Por ejemplo: dos visitas al día de una hora, o cuidado de 8 de la noche a 8 de la mañana.</p>
+          </div>
+
+          <div class="campo">
+            <label for="cantidad">Número de perros</label>
+            <input id="cantidad" name="cantidad" type="number" min="1" step="1" value="1" required>
+          </div>
+
+          <div class="campo">
+            <label for="nombres-perros">Nombre de tu perro o perros</label>
+            <input id="nombres-perros" name="perros" maxlength="200" required>
+          </div>
+
+          <div class="campo">
+            <label for="edades">Edad de cada perro</label>
+            <input id="edades" name="edades" maxlength="200" required>
+          </div>
+
+          <div class="campo">
+            <label for="tamanos">Tamaño o peso aproximado de cada perro</label>
+            <input id="tamanos" name="tamanos" maxlength="200" required>
+          </div>
+
+          <div class="campo completo">
+            <label for="cuidados">Rutinas y cuidados especiales (opcional)</label>
+            <textarea id="cuidados" name="cuidados" rows="4" maxlength="1000" aria-describedby="ayuda-cuidados"></textarea>
+            <p class="ayuda" id="ayuda-cuidados">Cuéntanos sus horarios de comida, hábitos de paseo y cómo suele relacionarse con personas nuevas.</p>
+          </div>
+
+          <div class="campo completo">
+            <button class="boton" type="submit">Solicitar cotización con Ananda</button>
+            <p class="aviso">Podrás revisar el mensaje en WhatsApp antes de enviarlo. Esta solicitud no confirma el servicio; acordaremos disponibilidad, cuidados y precio contigo.</p>
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
   <a class="whatsapp" href="https://wa.me/525585375196?text=Hola%20Ananda%2C%20quisiera%20consultar%20sobre%20el%20cuidado%20de%20perros%20a%20domicilio." target="_blank" rel="noopener noreferrer">WhatsApp · Ananda</a>
+
+  <script>
+    const numeroAnanda = "525585375196";
+    const formularioPerros = document.getElementById("formulario-perros");
+    const fechaInicio = document.getElementById("fecha-inicio");
+    const fechaFin = document.getElementById("fecha-fin");
+
+    /* No permitir fechas anteriores a hoy */
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    fechaInicio.min = `${anio}-${mes}-${dia}`;
+
+    function validarFechas() {
+      fechaFin.setCustomValidity("");
+      fechaFin.min = fechaInicio.value;
+
+      if (
+        fechaInicio.value &&
+        fechaFin.value &&
+        fechaFin.value < fechaInicio.value
+      ) {
+        fechaFin.setCustomValidity(
+          "La fecha final debe ser igual o posterior a la fecha de inicio."
+        );
+      }
+    }
+
+    fechaInicio.addEventListener("input", validarFechas);
+    fechaFin.addEventListener("input", validarFechas);
+
+    function formatearFecha(valor) {
+      const partes = valor.split("-");
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    formularioPerros.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      validarFechas();
+
+      if (!formularioPerros.reportValidity()) {
+        return;
+      }
+
+      const valor = (id) => document.getElementById(id).value.trim();
+      const selector = document.getElementById("modalidad");
+      const modalidad =
+        selector.options[selector.selectedIndex].textContent.trim();
+
+      const lineas = [
+        "Hola Ananda, quisiera cotizar el cuidado de mis perros a domicilio.",
+        "",
+        `Mi nombre: ${valor("nombre")}`,
+        `Colonia o zona: ${valor("colonia")}`,
+        `Modalidad: ${modalidad}`,
+        `Inicio: ${formatearFecha(valor("fecha-inicio"))}`,
+        `Finalización: ${formatearFecha(valor("fecha-fin"))}`,
+        `Visitas y horarios: ${valor("horarios")}`,
+        `Número de perros: ${valor("cantidad")}`,
+        `Nombres: ${valor("nombres-perros")}`,
+        `Edades: ${valor("edades")}`,
+        `Tamaños o pesos: ${valor("tamanos")}`
+      ];
+
+      if (valor("cuidados")) {
+        lineas.push(`Rutinas y cuidados especiales: ${valor("cuidados")}`);
+      }
+
+      const mensaje = encodeURIComponent(lineas.join("\n"));
+      window.open(
+        `https://wa.me/${numeroAnanda}?text=${mensaje}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+      formularioPerros.reset();
+      document.getElementById("cantidad").value = "1";
+    });
+  </script>
 </body>
 </html>

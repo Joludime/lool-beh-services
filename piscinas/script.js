@@ -5,6 +5,17 @@ const campoFecha = document.querySelector("#fecha");
 
 const numeroWhatsApp = "527772755235";
 
+/* Abrir el formulario desde los botones de la página */
+document.querySelectorAll("[data-abrir-cotizacion]").forEach((boton) => {
+  boton.addEventListener("click", abrirFormulario);
+});
+
+/* Cerrar el formulario con el botón × */
+document.querySelector("#cerrar-cotizacion").addEventListener(
+  "click",
+  cerrarFormulario
+);
+
 /* Establecer fecha mínima (hoy) */
 const hoy = new Date();
 const anio = hoy.getFullYear();
